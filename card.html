@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 10px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 7px;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 7px 15px;
+    }
+
+    #message {
+      margin-top: 8px;
+      color: green;
+    }
+  </style>
+</head>
+
+<body>
+
+<label>Adresas</label>
+<input id="address">
+
+<label>Užsakymo numeris</label>
+<input id="orderNumber">
+
+<button id="save">Išsaugoti</button>
+
+<div id="message"></div>
+
+<script src="https://p.trellocdn.com/power-up.min.js"></script>
+
+<script>
+
+const t = TrelloPowerUp.iframe();
+
+async function loadData() {
+
+  const data = await t.get(
+    'card',
+    'shared',
+    'projectFields',
+    {}
+  );
+
+  document.getElementById('address').value =
+    data.address || '';
+
+  document.getElementById('orderNumber').value =
+    data.orderNumber || '';
+}
+
+
+async function saveData() {
+
+  const data = {
+    address: document.getElementById('address').value,
+    orderNumber: document.getElementById('orderNumber').value
+  };
+
+  await t.set(
+    'card',
+    'shared',
+    'projectFields',
+    data
+  );
+
+  document.getElementById('message').textContent =
+    'Išsaugota';
+
+  setTimeout(function() {
+    document.getElementById('message').textContent = '';
+  }, 2000);
+}
+
+
+document.getElementById('save').addEventListener(
+  'click',
+  saveData
+);
+
+loadData();
+
+</script>
+
+</body>
+</html>
