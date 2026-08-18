@@ -2,9 +2,23 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Trello Project Fields</title>
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
 </head>
 <body>
-  Trello Project Fields
+
+<script>
+TrelloPowerUp.initialize({
+  'card-back-section': function(t, options) {
+    return {
+      title: 'Project information',
+      content: {
+        type: 'iframe',
+        url: t.signUrl('./card.html')
+      }
+    };
+  }
+});
+</script>
+
 </body>
 </html>
