@@ -10,7 +10,7 @@
 <script>
 TrelloPowerUp.initialize({
 
-  // Shows Project information when the card is opened
+  // Card back
   'card-back-section': function(t, options) {
     return {
       title: 'Project information',
@@ -25,41 +25,26 @@ TrelloPowerUp.initialize({
     };
   },
 
-  // Shows information on the front of the card
+  // Card front badge
   'card-badges': function(t, options) {
-    return t.get('card', 'shared', 'pluginData')
-      .then(function(data) {
 
-        var pluginData = data.pluginData || [];
+    return t.get(
+      'card',
+      'shared',
+      'projectFields'
+    ).then(function(data) {
 
-        // Find data belonging to our Power-Up
-        var ourData = pluginData.find(function(item) {
-          return item.idPlugin === '6a845a62d111ed74a35299a2';
-        });
+      if (!data || !data.orderNumber) {
+        return [];
+      }
 
-        if (!ourData || !ourData.value) {
-          return [];
+      return [
+        {
+          text: 'Užsakymas: ' + data.orderNumber
         }
+      ];
 
-        try {
-          var parsed = JSON.parse(ourData.value);
-          var fields = parsed.projectFields || {};
-
-          if (!fields.orderNumber) {
-            return [];
-          }
-
-          return [
-            {
-              text: 'Užsakymas: ' + fields.orderNumber,
-              color: null
-            }
-          ];
-
-        } catch (error) {
-          return [];
-        }
-      });
+    });
   }
 
 });
