@@ -2,11 +2,28 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Project Fields Test</title>
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
 </head>
+
 <body>
-  
-<h2>Project Fields Power-Up is working</h2>
-  
+
+<script>
+TrelloPowerUp.initialize({
+  'card-back-section': function(t, options) {
+    return {
+      title: 'Project information',
+      icon: 'https://kvizbaras.github.io/trello-project-fields/icon.svg',
+      content: {
+        type: 'iframe',
+        url: t.signUrl(
+          'https://kvizbaras.github.io/trello-project-fields/card.html'
+        ),
+        height: 180
+      }
+    };
+  }
+});
+</script>
+
 </body>
 </html>
